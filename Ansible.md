@@ -24,8 +24,11 @@ pip install dopy==0.3.5
 An inventory file allows ansible to define, group, and coordinate configuration management of multiple machines. At the most basic level, it basically lists the names of an asset and details about how to connect to it.
 
 Create a `inventory` file that contains something like the following.  **Note use your ip address and private_key**:
-    
-    node0 ansible_ssh_host=192.168.1.100 ansible_ssh_user=vagrant ansible_ssh_private_key_file=./keys/node0.key
+
+``` ini
+node0 ansible_host=192.168.1.100 ansible_ssh_user=vagrant ansible_ssh_private_key_file=./keys/node0.key
+```
+
 
 #### Setting up ssh keys
 
