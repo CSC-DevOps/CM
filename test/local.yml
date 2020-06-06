@@ -2,11 +2,14 @@
    description: "Essential development tools"
    checks:
      - version:
+         cmd: opunit --version
+         range: ^0.7.6
+     - version:
          cmd: node --version
          range: ^10.x.x
      - version:
          cmd: VBoxManage --version
          range: 5.2.x
      - version:
-         cmd: baker --version
-         range: ^0.6.15
+         cmd: bakerx --version
+         range: ^0.6.12
