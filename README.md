@@ -1,3 +1,9 @@
+<!--
+targets:
+    - type: local
+      name: local
+-->
+
 Configuration Management Workshop
 ----------------------------------
 
