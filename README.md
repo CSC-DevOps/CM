@@ -1,7 +1,9 @@
 <!--
 targets:
     - type: local
-      name: local
+      cwd: .
+    - type: bakerx
+      name: config-server
 -->
 
 Configuration Management Workshop
@@ -53,8 +55,8 @@ $ VBoxManage list vms
 
 Create the Virtual Machine.
 
-```bash
-$ bakerx run ansible-srv bionic --ip 192.168.33.10 --sync
+```bash | command {}
+$ bakerx run config-server focal --ip 192.168.33.10 --sync
 ```
 
 You should see bakerx create the virtual machine with a hostonly network.
