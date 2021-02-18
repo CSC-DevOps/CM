@@ -1,6 +1,7 @@
 <!--
 targets:
     - type: local
+      name: local
       cwd: .
     - type: bakerx
       name: config-server
