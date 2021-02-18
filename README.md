@@ -57,7 +57,7 @@ $ VBoxManage list vms
 Create the Virtual Machine.
 
 ```bash | {type: 'command'}
-$ bakerx run config-server focal --ip 192.168.33.10 --sync
+bakerx run config-server focal --ip 192.168.33.10 --sync
 ```
 
 You should see bakerx create the virtual machine with a hostonly network.
