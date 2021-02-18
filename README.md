@@ -15,7 +15,7 @@ In this workshop, we'll cover the basics of setting up a simple configuration se
 Import this as a notebook or clone this repo locally. Ensure you [install latest version of docable](https://github.com/ottomatica/docable-notebooks/blob/master/docs/install.md), with multi-target support!
 
 ```bash
-docable-server import https://github.com/CSC-DevOps/CM` 
+docable-server import https://github.com/CSC-DevOps/CM 
 ```
 
 * Clone this repo with: `git clone https://github.com/CSC-DevOps/CM` 
@@ -28,7 +28,7 @@ docable-server import https://github.com/CSC-DevOps/CM`
 
 To check the configuration of the ansible server and web server, we will use `opunit` to run checks on the virtual machines listed in the inventory file. We can run checks from the top-level directory as follows: 
 
-```bash
+```bash | {type: 'command'}
 $ opunit verify -i opunit_inventory.yml
 ```
 
