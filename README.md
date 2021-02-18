@@ -37,7 +37,7 @@ docable-server import https://github.com/CSC-DevOps/CM
 
 To check the configuration of the ansible server and web server, we will use `opunit` to run checks on the virtual machines listed in the inventory file. We can run checks from the top-level directory as follows: 
 
-```bash | {type: 'command'}
+```bash | {type: 'command', target: 'local'}
 opunit verify -i opunit_inventory.yml
 ```
 
@@ -56,7 +56,7 @@ $ VBoxManage list vms
 
 Create the Virtual Machine.
 
-```bash | command {}
+```bash | {type: 'command'}
 $ bakerx run config-server focal --ip 192.168.33.10 --sync
 ```
 
