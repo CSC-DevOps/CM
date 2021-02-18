@@ -29,7 +29,7 @@ docable-server import https://github.com/CSC-DevOps/CM
 To check the configuration of the ansible server and web server, we will use `opunit` to run checks on the virtual machines listed in the inventory file. We can run checks from the top-level directory as follows: 
 
 ```bash | {type: 'command'}
-$ opunit verify -i opunit_inventory.yml
+opunit verify -i opunit_inventory.yml
 ```
 
 ## Creating your servers 
