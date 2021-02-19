@@ -62,18 +62,17 @@ bakerx run config-server focal --ip 192.168.33.10 --sync
 You should see bakerx create the virtual machine with a hostonly network.
 
 ```
-Executing VBoxManage modifyvm "ansible-srv" --nic2 hostonly
-Executing VBoxManage modifyvm "ansible-srv" --nictype2 virtio
+Executing VBoxManage modifyvm "config-server" --nic2 hostonly
+Executing VBoxManage modifyvm "config-server" --nictype2 virtio
 ```
 
-Inside the ansible-srv, install ansible:
+🎛️ Inside the config-server, install ansible.
 
-```bash | {type: 'command', target: 'config-server', stream: true, 'background-color': '#084d00'}
+```bash | {type: 'command', target: 'config-server', stream: true}
 sudo add-apt-repository ppa:ansible/ansible
 sudo apt-get update
 sudo apt-get install ansible -y
 ```
-
 
 Verify that ansible was installed by running opunit.
 
@@ -121,24 +120,16 @@ One nice trick is to use a copy utility to copy a file into your copy/paste buff
 Let's go to the ansible-srv:
 
 ```
-bakerx ssh ansible-srv
+bakerx ssh config-server
 ```
 
-Using a file editor, paste and store your private key in a file:
+Inside your config-server, paste and store your private key in a file located at `~/.ssh/web-srv`.
 
-```bash
-ansible-srv $ vim ~/.ssh/web-srv
-# Make sure key is not readable by others.
-ansible-srv $ chmod 600 ~/.ssh/web-srv
-# We're done here, go back to host
-ansible-srv $ exit
+Make sure 600.
+
+```bash | {type: 'terminal', target: 'config-server', 'background-color': '#43464B'}
 ```
 
-Or use a simple command:
-
-```bash
-$ cat web-srv | ssh -i ~/.bakerx/insecure_private_key -o StrictHostKeyChecking=no vagrant@192.168.33.10 "cat > ~/.ssh/web-srv && chmod 600 ~/.ssh/web-srv"
-```
 
 
 #### Authorizing the public key on the web server 🌐
