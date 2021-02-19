@@ -79,7 +79,9 @@ cat web-srv.pub | ssh -i ~/.bakerx/insecure_private_key -o StrictHostKeyChecking
 
 Inside the config-srv, test your connection between the servers:
 
-    ssh -i ~/.ssh/web-srv -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no vagrant@192.168.33.100
+```bash | {type: 'command', target: 'config-server'}
+ssh -i ~/.ssh/web-srv -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no vagrant@192.168.33.100 ip a -c
+```
 
 💥 You will likely see something like this!
 
