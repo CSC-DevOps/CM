@@ -13,7 +13,6 @@ Part 1. [Configuration Management Workshop](README.md)
 Part 2. [Building a Configuration Server](CM.md)  ⬅️   
 Part 3. [Ansible Playbooks](Playbooks.md)
 
-
 ## Workshop
 
 An overview of the components we will set up can be seen here:
@@ -22,49 +21,13 @@ An overview of the components we will set up can be seen here:
 
 ### Checking progress on workshop
 
-To check the configuration of the ansible server and web server, we will use `opunit` to run checks on the virtual machines listed in the inventory file. We can run checks from the top-level directory as follows: 
+To check the configuration of the ansible server and web server, we will use `opunit` to run checks on the virtual machines listed in the inventory file. We can run checks from the top-level directory as follows.
 
-```bash | {type: 'command', target: 'local'}
+At any time, you can run the following in on your host computer's terminal:
+
+```bash
 opunit verify -i opunit_inventory.yml
 ```
-
-## Creating your servers 
-
-### The configuration server ⚒️
-
-Let's create a configuration server. This server will be using a "push-based model", where we will be sending configuration commands to other external servers. We will install ansible.
-
-
-🎛️  Inside the config-server, install ansible.
-
-```bash | {type: 'command', target: 'config-server', stream: true, failed_when: "exitCode != 0"}
-sudo add-apt-repository ppa:ansible/ansible
-sudo apt-get update
-sudo apt-get install ansible -y
-```
-
-Verify that ansible was installed by running opunit.
-
-```
-$ opunit verify vagrant@192.168.33.10 --ssh_key ~/.bakerx/insecure_private_key -c test/ansible-srv.yml  
-```
-
-You should see the ansible check pass:
-
-```bash
-	version check
-	    ✔   ansible --version: 2.9.4 > ^2.7.x => true 
-```
-
-### The web server 🌐
-
-Let's create another virtual machine for the web server. 
-
-```bash
-$ bakerx run web-srv focal --ip 192.168.33.100
-```
-
-You should see baker create the virtual machine.
 
 ## Creating a connection between your servers
 
@@ -124,7 +87,7 @@ $ cat web-srv.pub | ssh -i ~/.bakerx/insecure_private_key -o StrictHostKeyChecki
 
 #### Testing your connection/Errors
 
-Inside the ansible-srv, test your connection between the servers:
+Inside the config-srv, test your connection between the servers:
 
     ssh -i ~/.ssh/web-srv -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no vagrant@192.168.33.100
 
@@ -167,11 +130,23 @@ Writing bash scripts can be error-prone. Most commands are not idempotent, meani
 
 Ansible is a tool for performing configuration changes on multiple machines. Ansible uses a push-based model for configuration management, performing idempotent commands over ssh, without requiring any agent running. The implementation is rather straightforward: _Ansible commands are translated into python snippets, and then copied over to the target machine, and executed. This requires that python is installed on the target machine_.
 
+### Install
+
+🎛️  Inside the `config-server`, install ansible.
+
+```bash | {type: 'command', target: 'config-server', stream: true, failed_when: "exitCode != 0"}
+sudo add-apt-repository ppa:ansible/ansible
+sudo apt-get update
+sudo apt-get install ansible -y
+```
+
+Now, we can use this server to send or "push" commands to other external servers, such as web-srv.
+
 ### Inventory
 
 An inventory file allows ansible to define, group, and coordinate configuration management of multiple machines. At the most basic level, it basically lists the names of an asset and details about how to connect to it.
 
-Inside the ansible-srv, edit the `inventory` file to include the ip address, user, and path to the private key:
+Inside the config-srv, edit the `inventory` file to include the ip address, user, and path to the private key:
 
 ```ini 
 [web]
@@ -186,7 +161,7 @@ Now, run the ping test to verify ansible is able to talk to the web-srv!
 
 We should see a successful connection!
 
-```
+```json
 192.168.33.100 | SUCCESS => {
     "changed": false,
     "ping": "pong"
@@ -211,17 +186,16 @@ You should be able to verify all checks pass:
 
     opunit verify -i opunit_inventory.yml
 
-Great work!
+Great work! 
 
-## Extra fun
+Running ansible commands can be useful for exploration and debugging. However, we want to be able to organize these commands into reusable configuration scripts.
+
+In Part 3, we will learn about creating and running ansible playbooks.
+
+
+#### Extra fun
 
 Can you provision a remote VM (from digitalocean/etc.) and then add its details to the inventory? Can you run your nginx command on it too?
-
-## Next steps
-
-Run ansible commands can be useful for exploration and debugging. However, we want to be able to organize these commands into reusable configuration scripts.
-
-Next workshop, we will learn about creating and running ansible playbooks.
 
 ## Common errors
 Note, on older versions of ansible, you may fail to ping an item in your inventory if the server does not have python2. One workaround is to specify the python version explicitly. In newer versions of ansible, this will automatically be discovered by ansible. 
