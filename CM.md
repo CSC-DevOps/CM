@@ -61,14 +61,10 @@ Paste and store the private key you generated (web-srv) in a file located at `~/
 
 #### Authorizing the public key on the web server 🌐
 
-Now, we need to authorize the key for use on the web server!
-
-Copy the `web-srv.pub` file you generated on your host in your clipboard...
+Now, we need to authorize the key for use on the web server! Copy the `web-srv.pub` file you generated on your host in your clipboard...
 
 Using the notebook terminal or manually running `bakerx ssh web-srv` from your own terminal...
-Paste and store the private key you generated (web-srv) in a file located at `~/.ssh/web-srv`.
-
-Using a file editor, edit the file `~/.ssh/authorized_keys`, and add the public key to the list of authorized keys. 💥  Warning! Do not delete other entries, otherwise you might make your VM in accessible from ssh.
+Edit the file `~/.ssh/authorized_keys`, and add the public key to the list of authorized keys. 💥  Warning! Do not delete other entries, otherwise you might make your VM in accessible from ssh.
 
 ```bash | {type: 'terminal', target: 'web-srv', 'background-color': '#003670'}
 ```
@@ -85,11 +81,7 @@ Inside the config-srv, test your connection between the servers:
 
     ssh -i ~/.ssh/web-srv -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no vagrant@192.168.33.100
 
-Note: You should also be able to make this same connection from your host machine, since you also have private key, locally.
-
-If you see an error or prompt for a password, you have a problem with your key setup. Double check have pasted in the content in correctly (where you in insert mode in vim before pasting?). 
-
-If you see this warning, you need to remember to perform the `chmod 600` in order to fix the permissions of the private key file:
+💥 You will likely see something like this!
 
 ```
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -97,6 +89,23 @@ If you see this warning, you need to remember to perform the `chmod 600` in orde
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 Permissions 0664 for '/home/vagrant/.ssh/web-srv' are too open.
 ```
+
+If you see this warning, we need to remember to run `chmod 600` on our private key file, in order to reduce who can read or access this file.
+
+```bash | {type: 'command', target: 'config-server'}
+chmod 600 ~/.ssh/web-srv
+```
+
+If you see an error or prompt for a password, you have a problem with your key setup. Double check have pasted in the content in correctly (where you in insert mode in vim before pasting?). 
+
+
+
+
+
+
+
+Note: You should also be able to make this same connection from your host machine, since you also have private key, locally.
+
 
 ## Performing commands over ssh
 
