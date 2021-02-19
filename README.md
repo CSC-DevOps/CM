@@ -66,3 +66,9 @@ You should see something like:
 vagrant@ubuntu-focal:~$ ls /bakerx
 CM.md  Playbooks.md  README.md  examples  img  opunit_inventory.yml  test  yaml
 ```
+
+## Moving on
+
+If everything looks good, then time to move on to the next step:  
+
+Part 2. [Building a Configuration Server](CM.md)   
