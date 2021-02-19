@@ -55,7 +55,7 @@ bakerx pull focal cloud-images.ubuntu.com
 
 Create the Virtual Machine.
 
-```bash | {type: 'command', stream: true}
+```bash | {type: 'command', stream: true, failed_when: 'exitCode != 0'}
 bakerx run config-server focal --ip 192.168.33.10 --sync
 ```
 
@@ -68,7 +68,7 @@ Executing VBoxManage modifyvm "ansible-srv" --nictype2 virtio
 
 Inside the ansible-srv, install ansible:
 
-```bash | {type: 'command', target: 'config-server', stream: true}
+```bash | {type: 'command', target: 'config-server', stream: true, background-color': '#084d00'}
 sudo add-apt-repository ppa:ansible/ansible
 sudo apt-get update
 sudo apt-get install ansible -y
