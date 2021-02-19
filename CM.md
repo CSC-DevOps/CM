@@ -13,6 +13,13 @@ Part 1. [Configuration Management Workshop](README.md)
 Part 2. [Building a Configuration Server](CM.md)  ⬅️   
 Part 3. [Ansible Playbooks](Playbooks.md)
 
+
+## Workshop
+
+An overview of the components we will set up can be seen here:
+
+![image](img/ansible-setup.png)
+
 ### Checking progress on workshop
 
 To check the configuration of the ansible server and web server, we will use `opunit` to run checks on the virtual machines listed in the inventory file. We can run checks from the top-level directory as follows: 
@@ -27,25 +34,6 @@ opunit verify -i opunit_inventory.yml
 
 Let's create a configuration server. This server will be using a "push-based model", where we will be sending configuration commands to other external servers. We will install ansible.
 
-Check virtualization.
-
-```bash | {type: 'command'}
-bakerx pull focal cloud-images.ubuntu.com
-```
-
-
-Create the Virtual Machine.
-
-```bash | {type: 'command', stream: true, failed_when: "exitCode != 0"}
-bakerx run config-server focal --ip 192.168.33.10 --sync
-```
-
-You should see bakerx create the virtual machine with a hostonly network.
-
-```
-Executing VBoxManage modifyvm "config-server" --nic2 hostonly
-Executing VBoxManage modifyvm "config-server" --nictype2 virtio
-```
 
 🎛️  Inside the config-server, install ansible.
 
