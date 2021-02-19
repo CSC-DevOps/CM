@@ -48,8 +48,8 @@ Let's create a configuration server. This server will be using a "push-based mod
 
 Check virtualization.
 
-```bash
-$ VBoxManage list vms
+```bash | {type: 'command', stream: true}
+bakerx pull focal cloud-images.ubuntu.com
 ```
 
 
