@@ -68,7 +68,7 @@ Executing VBoxManage modifyvm "ansible-srv" --nictype2 virtio
 
 Inside the ansible-srv, install ansible:
 
-```bash | {type: 'command', target: 'config-server', stream: true, background-color': '#084d00'}
+```bash | {type: 'command', target: 'config-server', stream: true, background-color: '#084d00'}
 sudo add-apt-repository ppa:ansible/ansible
 sudo apt-get update
 sudo apt-get install ansible -y
