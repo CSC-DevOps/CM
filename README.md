@@ -56,7 +56,7 @@ bakerx run web-srv focal --ip 192.168.33.100
 ```
 
 First, from our host computer, let's make sure we can run `ping 192.168.33.10` and `ping 192.168.33.100`. 
-If this works, this should mean both our VM's correctly have host-only networking setup, and they both have an ip address you can use to connect to them.
+If this works, this should mean both our VM's correctly have host-only networking setup, and they both have an ip address you can use to connect to them. You can manually check the ip address inside the VMs by running `ip -c a`.
 
 Second, run `bakerx ssh config-server` to access your 🎛️  `config-server`. Then make sure your VM has properly mounted your host's computer's directory.
 

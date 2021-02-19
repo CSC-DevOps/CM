@@ -4,6 +4,8 @@ targets:
       name: local
     - type: bakerx
       name: config-server
+    - type: bakerx
+      name: web-srv      
 -->
 
 Building a Configuration Server
@@ -35,54 +37,46 @@ You need a way to automatically connect to your server without having to manuall
 
 From your host machine, create a new public/private key pair, running the following command:
 
-    ssh-keygen -t rsa -b 4096 -C "web-srv" -f web-srv -N ""
+```bash | {type: 'command'}
+ssh-keygen -t rsa -b 4096 -C "web-srv" -f web-srv -N ""
+```
+
+After generating the keys, you need to copy them onto the servers. The private key (*secret*, tell no one 🤐), needs to be stored internally in the configuration server. The public key (🌐), needs to be _authorized_ for use on the web-server.
 
 ![ssh connection](img/connection.png)
 
-After generating the keys, you need to copy them onto the servers. The private key (*secret*, tell know one 🤐), needs to be stored internally in the configuration server. The public key (🌐), needs to be _authorized_ for use on the web-server.
-
 #### Storing the private key in the configuration server ⚒️
 
-One nice trick is to use a copy utility to copy a file into your copy/paste buffer:
+Using the notebook terminal or manually running `bakerx ssh config-server` from your own terminal...
+Paste and store the private key you generated (web-srv) in a file located at `~/.ssh/web-srv`.
+
+```bash | {type: 'terminal', target: 'config-server', 'background-color': '#43464B'}
+```
+
+💡  One nice trick is to use a copy utility to copy a file into your copy/paste buffer.
 
 * Mac: `pbcopy < web-srv`
 * Windows: `clip < web-srv`
 * Linux: [Check out one of these options](https://superuser.com/a/288333/862331).
 
-Let's go to the ansible-srv:
-
-```
-bakerx ssh config-server
-```
-
-Inside your config-server, paste and store your private key in a file located at `~/.ssh/web-srv`.
-
-Make sure 600.
-
-```bash | {type: 'terminal', target: 'config-server', 'background-color': '#43464B'}
-```
-
-
-
 #### Authorizing the public key on the web server 🌐
 
-Copy the web-srv.pub file from your host.
+Now, we need to authorize the key for use on the web server!
 
-Go inside the web-srv.
+Copy the `web-srv.pub` file you generated on your host in your clipboard...
 
-Using a file editor, add the public key to the list of authorized keys:
+Using the notebook terminal or manually running `bakerx ssh web-srv` from your own terminal...
+Paste and store the private key you generated (web-srv) in a file located at `~/.ssh/web-srv`.
 
-```bash
-web-srv $ vim ~/.ssh/authorized_keys`
-web-srv $ exit
+Using a file editor, edit the file `~/.ssh/authorized_keys`, and add the public key to the list of authorized keys. 💥  Warning! Do not delete other entries, otherwise you might make your VM in accessible from ssh.
+
+```bash | {type: 'terminal', target: 'web-srv', 'background-color': '#003670'}
 ```
 
-Take care not to delete other entries, which may affect your ability to use bakerx to ssh into the machine. You also do not need to change the permissions of the file.
-
-You may consider running this simple command to update the public key entry:
+Note: You might find this command useful for updating the entry if you're having trouble using ssh + file editor.
 
 ```bash
-$ cat web-srv.pub | ssh -i ~/.bakerx/insecure_private_key -o StrictHostKeyChecking=no vagrant@192.168.33.100 "cat >> ~/.ssh/authorized_keys"
+cat web-srv.pub | ssh -i ~/.bakerx/insecure_private_key -o StrictHostKeyChecking=no vagrant@192.168.33.100 "cat >> ~/.ssh/authorized_keys"
 ```
 
 #### Testing your connection/Errors
