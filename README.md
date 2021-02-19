@@ -66,9 +66,9 @@ Executing VBoxManage modifyvm "config-server" --nic2 hostonly
 Executing VBoxManage modifyvm "config-server" --nictype2 virtio
 ```
 
-🎛️ Inside the config-server, install ansible.
+🎛️  Inside the config-server, install ansible.
 
-```bash | {type: 'command', target: 'config-server', stream: true}
+```bash | {type: 'command', target: 'config-server', stream: true, failed_when: "exitCode != 0"}
 sudo add-apt-repository ppa:ansible/ansible
 sudo apt-get update
 sudo apt-get install ansible -y
