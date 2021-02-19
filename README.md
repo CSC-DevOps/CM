@@ -55,7 +55,7 @@ $ VBoxManage list vms
 
 Create the Virtual Machine.
 
-```bash | {type: 'command'}
+```bash | {type: 'command', stream: true}
 bakerx run config-server focal --ip 192.168.33.10 --sync
 ```
 
