@@ -1,9 +1,9 @@
 ---
 - ssh:
-  - name: ansible-srv
+  - name: config-server
     target: vagrant@192.168.33.10
     private_key: ~/.bakerx/insecure_private_key
-    criteria_path: test/ansible-srv.yml
+    criteria_path: test/config-server.yml
   - name: web-srv
     target: vagrant@192.168.33.100
     criteria_path: test/web-srv.yml
