@@ -66,7 +66,7 @@ Use of the the below clipboard commands or simply use `cat` to see and copy the 
 
 Now private key content needs to be placed inside the config-server, in a file called `~/.ssh/web-srv`. Use a terminal to create the file.
 
-```bash | {type: 'terminal', target: 'config-server', 'background-color': '#43464B'}
+```bash | {type: 'terminal', target: 'config-server', 'background-color': '#C80815'}
 ```
 
 #### Authorizing the public key on the web server 🌐
@@ -86,7 +86,7 @@ Inside the config-srv, test your connection between the servers:
 ssh -i ~/.ssh/web-srv -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no vagrant@192.168.33.100
 ```
 
-```bash | {type: 'terminal', target: 'config-server', 'background-color': '#43464B'}
+```bash | {type: 'terminal', target: 'config-server', 'background-color': '#C80815' }
 ```
 
 💥 You will likely see something like this!
@@ -117,6 +117,9 @@ Once you have established a ssh connection between two servers, you have achieve
 
 🗿 You can now perform ad-hoc commands and even execute scripts on machines without having to manually log-in.
 
+```bash | {type: 'terminal', target: 'config-server', 'background-color': '#C80815'}
+```
+
 For example, when you run this command.
 
     ssh -i ~/.ssh/web-srv -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null vagrant@192.168.33.100 ls /
@@ -126,8 +129,6 @@ You can see the directory of the web-srv.
 Practice: From your ansible-srv, create a file by executing the command below on the remote server. Verify it exists.
 
     touch ssh_test.txt
-
-By this point, you should be able to pass the ssh setup checks in opunit: `opunit verify -i opunit_inventory.yml`.
 
 #### Why not just send bash commands over ssh?
 
