@@ -66,7 +66,7 @@ Use of the the below clipboard commands or simply use `cat` to see and copy the 
 
 Now private key content needs to be placed inside the config-server, in a file called `~/.ssh/web-srv`. Use a terminal to create the file.
 
-```bash | {type: 'terminal', target: 'config-server', 'background-color': '#C80815'}
+``` | {type: 'terminal', target: 'config-server', 'background-color': '#C80815'}
 ```
 
 #### Authorizing the public key on the web server 🌐
@@ -75,7 +75,7 @@ Now, we need to authorize the private key for use on the web server!
 
 Edit the file `~/.ssh/authorized_keys`, and add the public key to the list of authorized keys. 💥  Warning! Do not delete other entries, otherwise you might make your VM in accessible from ssh.
 
-```bash | {type: 'terminal', target: 'web-srv', 'background-color': '#003670'}
+``` | {type: 'terminal', target: 'web-srv', 'background-color': '#003670'}
 ```
 
 #### Testing your connection/Errors
@@ -86,7 +86,7 @@ Inside the config-srv, test your connection between the servers:
 ssh -i ~/.ssh/web-srv -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no vagrant@192.168.33.100
 ```
 
-```bash | {type: 'terminal', target: 'config-server', 'background-color': '#C80815' }
+``` | {type: 'terminal', target: 'config-server', 'background-color': '#C80815' }
 ```
 
 💥 You will likely see something like this!
@@ -117,7 +117,7 @@ Once you have established a ssh connection between two servers, you have achieve
 
 🗿 You can now perform ad-hoc commands and even execute scripts on machines without having to manually log-in.
 
-```bash | {type: 'terminal', target: 'config-server', 'background-color': '#C80815'}
+``` | {type: 'terminal', target: 'config-server', 'background-color': '#C80815'}
 ```
 
 For example, when you run this command.

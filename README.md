@@ -52,7 +52,7 @@ bakerx run web-srv focal --ip 192.168.33.100
 
 4. Using the terminal, run a couple of checks to make sure everything is okay. 
 
-```bash | {type: 'terminal'}
+``` | {type: 'terminal'}
 ```
 
 First, from our host computer, let's make sure we can run `ping 192.168.33.10` and `ping 192.168.33.100`. 
