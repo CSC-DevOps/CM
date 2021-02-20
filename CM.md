@@ -78,14 +78,15 @@ Edit the file `~/.ssh/authorized_keys`, and add the public key to the list of au
 ```bash | {type: 'terminal', target: 'web-srv', 'background-color': '#003670'}
 ```
 
-Note: You might find this command useful for updating the entry if you're having trouble using ssh + file editor.
-
 #### Testing your connection/Errors
 
 Inside the config-srv, test your connection between the servers:
 
-```bash | {type: 'command', target: 'config-server'}
-ssh -i ~/.ssh/web-srv -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no vagrant@192.168.33.100 ip a -c
+```bash
+ssh -i ~/.ssh/web-srv -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no vagrant@192.168.33.100
+```
+
+```bash | {type: 'terminal', target: 'config-server', 'background-color': '#43464B'}
 ```
 
 💥 You will likely see something like this!
@@ -97,11 +98,7 @@ ssh -i ~/.ssh/web-srv -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=n
 Permissions 0664 for '/home/vagrant/.ssh/web-srv' are too open.
 ```
 
-If you see this warning, we need to remember to run `chmod 600` on our private key file, in order to reduce who can read or access this file.
-
-```bash | {type: 'command', target: 'config-server'}
-chmod 600 ~/.ssh/web-srv
-```
+If you see this warning, we need to remember to run `chmod 600 ~/.ssh/web-srv` on our private key file, in order to reduce who can read or access this file.
 
 Run the above ssh command again, it should be working! 🥳
 
