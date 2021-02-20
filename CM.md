@@ -47,17 +47,25 @@ After generating the keys, you need to copy them onto the servers. The private k
 
 #### Storing the private key in the configuration server ⚒️
 
-Using the notebook terminal or manually running `bakerx ssh config-server` from your own terminal...
-Paste and store the private key you generated (web-srv) in a file located at `~/.ssh/web-srv`.
-
-```bash | {type: 'terminal', target: 'config-server', 'background-color': '#43464B'}
-```
-
+We will need to first copy the `web-srv` file we generated.
 💡  One nice trick is to use a copy utility to copy a file into your copy/paste buffer.
 
 * Mac: `pbcopy < web-srv`
 * Windows: `clip < web-srv`
 * Linux: [Check out one of these options](https://superuser.com/a/288333/862331).
+
+Use of the the above clipboard commands or simply run `cat web-srv` to see and copy the content of the file. You can edit and fill the cell below:
+
+```bash | {type: 'command'}
+ 
+```
+
+
+Using the notebook terminal or manually running `bakerx ssh config-server` from your own terminal.
+Paste and store the private key you generated (web-srv) in a file located at `~/.ssh/web-srv`.
+
+```bash | {type: 'terminal', target: 'config-server', 'background-color': '#43464B'}
+```
 
 #### Authorizing the public key on the web server 🌐
 
@@ -98,22 +106,24 @@ If you see this warning, we need to remember to run `chmod 600` on our private k
 chmod 600 ~/.ssh/web-srv
 ```
 
-If you see an error or prompt for a password, you have a problem with your key setup. Double check have pasted in the content in correctly (where you in insert mode in vim before pasting?). 
+Run the above ssh command again, it should be working! 🥳
 
+If you *still* see an error or prompt for a password, you most likely have a problem with your key setup. 
 
+* Double check have pasted in the content in correctly (e.g., where you in insert mode in vim before pasting?). 
+* Make sure you did not mix up your private/public key.
+* Make sure you *did not* change the permission of authorized_key file, which would interfere with ssh's ability to read it!
+* Try running opunit, to see if you fail any unexpected checks:
 
-
-
-
-
-Note: You should also be able to make this same connection from your host machine, since you also have private key, locally.
-
+```bash| {type: 'command'}
+opunit verify -i opunit_inventory.yml
+```
 
 ## Performing commands over ssh
 
-Once you have established a ssh connection between two servers, you have achieved an important milestone in configuration management.
+Once you have established a ssh connection between two servers, you have achieved an important milestone in configuration management. 
 
-You can now perform ad-hoc commands and even execute scripts on machines without having to manually log-in.
+🗿 You can now perform ad-hoc commands and even execute scripts on machines without having to manually log-in.
 
 For example, when you run this command.
 
