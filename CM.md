@@ -129,13 +129,17 @@ Practice: From your ansible-srv, create a file by executing the command below on
 
 By this point, you should be able to pass the ssh setup checks in opunit: `opunit verify -i opunit_inventory.yml`.
 
-## Ansible
+#### Why not just send bash commands over ssh?
 
 While being able to run ad-hoc commands and scripts provides a useful capability, there are several constraints that make this impractical. 
 
 Writing bash scripts can be error-prone. Most commands are not idempotent, meaning they may cause errors or unexpected behaviors if run multiple times on the same servers. Finally, configuration of servers is an inherently noisy problem, due to network issues and random service and hardware failures. This means, you often need to resume a configuration operation after experiencing partial failure.
 
-Ansible is a tool for performing configuration changes on multiple machines. Ansible uses a push-based model for configuration management, performing idempotent commands over ssh, without requiring any agent running. The implementation is rather straightforward: _Ansible commands are translated into python snippets, and then copied over to the target machine, and executed. This requires that python is installed on the target machine_.
+## Ansible
+
+Ansible is a tool for performing configuration changes on multiple machines. Ansible uses a push-based model for configuration management, performing idempotent commands over ssh, without requiring any agent running. 
+
+The implementation is rather straightforward: _Ansible commands are translated into python snippets, and then copied over to the target machine, and executed. This requires that python is installed on the target machine_.
 
 ### Install Ansible
 
@@ -185,7 +189,9 @@ We can test our ability to use ansible for a simple configuration management tas
 
 Let's install a web server, called nginx (say like engine-X), on the web-srv VM. The web server will automatically start as a service.
 
-    ansible all -b -m apt -i inventory -a 'pkg=nginx state=present update_cache=true'
+```bash | {type: 'command', target: 'config-server'}
+ansible all -b -m apt -i inventory -a 'pkg=nginx state=present update_cache=true'
+```
 
 Open a browser and enter in your node's ip address, e.g. http://192.168.33.100
 
@@ -193,14 +199,17 @@ Open a browser and enter in your node's ip address, e.g. http://192.168.33.100
 
 You should be able to verify all checks pass:
 
+```bash | {type: 'command', target: 'config-server'}
     opunit verify -i opunit_inventory.yml
+```
+
+#### Reflection
 
 Great work! 
 
 Running ansible commands can be useful for exploration and debugging. However, we want to be able to organize these commands into reusable configuration scripts.
 
-In Part 3, we will learn about creating and running ansible playbooks.
-
+[In Part 3](Playbooks.md), we will learn about creating and running ansible playbooks.
 
 #### Extra fun
 
