@@ -159,7 +159,7 @@ An inventory file allows ansible to define, group, and coordinate configuration 
 
 Inside the config-srv, edit the `inventory` file to include the ip address, user, and path to the private key:
 
-```ini | {type: 'file', target: 'config-server', path: '~/inventory'}
+```ini | {type: 'file', target: 'config-server', path: '/home/vagrant/inventory'}
 [web]
 192.168.33.100 ansible_ssh_user=vagrant ansible_ssh_private_key_file=~/.ssh/web-srv 
 [web:vars]
@@ -169,7 +169,7 @@ ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 Now, run the ping test to verify ansible is able to talk to the web-srv!
 
 ```bash | {type: 'command', target: 'config-server'}
-ansible all -m ping -i /bakerx/inventory
+ansible all -m ping -i inventory
 ```
 
 We should see a successful connection!
@@ -187,10 +187,12 @@ We can test our ability to use ansible for a simple configuration management tas
 
 #### Installing nginx
 
-Let's install a web server, called nginx (say like engine-X), on the web-srv VM. The web server will automatically start as a service.
+Let's install a web server, called nginx (say like engine-X), on the web-srv VM. The web server will automatically start as a service. 
+
+Complete the ansible command by retyping it out and looking at each parameter: `ansible all -b -m apt -i inventory -a 'pkg=nginx state=present update_cache=true'`.
 
 ```bash | {type: 'command', target: 'config-server'}
-ansible all -b -m apt -i inventory -a 'pkg=nginx state=present update_cache=true'
+ansible 
 ```
 
 Open a browser and enter in your node's ip address, e.g. http://192.168.33.100
@@ -199,15 +201,13 @@ Open a browser and enter in your node's ip address, e.g. http://192.168.33.100
 
 You should be able to verify all checks pass:
 
-```bash | {type: 'command', target: 'config-server'}
+```bash | {type: 'command'}
 opunit verify -i opunit_inventory.yml
 ```
 
 #### Reflection
 
-Great work! 
-
-Running ansible commands can be useful for exploration and debugging. However, we want to be able to organize these commands into reusable configuration scripts.
+Great work! Running ansible commands can be useful for exploration and debugging. However, we want to be able to organize these commands into reusable configuration scripts.
 
 [In Part 3](Playbooks.md), we will learn about creating and running ansible playbooks.
 
