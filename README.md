@@ -8,6 +8,8 @@ Part 1. [Configuration Management Workshop](README.md)  ⬅️
 Part 2. [Building a Configuration Server](CM.md)   
 Part 3. [Ansible Playbooks](Playbooks.md)  
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/3PtXTjyXUVA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 ## Before you get started
 
 Import this as a notebook or clone this repo locally.  

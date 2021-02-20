@@ -15,6 +15,8 @@ Part 1. [Configuration Management Workshop](README.md)
 Part 2. [Building a Configuration Server](CM.md)  ⬅️   
 Part 3. [Ansible Playbooks](Playbooks.md)
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/ICPiGT9dAF8" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 ## Workshop
 
 An overview of the components we will set up can be seen here:
