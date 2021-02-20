@@ -98,11 +98,9 @@ ssh -i ~/.ssh/web-srv -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=n
 Permissions 0664 for '/home/vagrant/.ssh/web-srv' are too open.
 ```
 
-If you see this warning, we need to remember to run `chmod 600 ~/.ssh/web-srv` on our private key file, in order to reduce who can read or access this file.
+If you see this warning, run `chmod 600 ~/.ssh/web-srv` on our private key file, in order to reduce who can read or access this file. Run the above ssh command again, it should be working! 🥳
 
-Run the above ssh command again, it should be working! 🥳
-
-If you *still* see an error or prompt for a password, you most likely have a problem with your key setup. 
+If you *still* see an error or prompt for a password, you most likely have a problem with your key setup. Here are some steps to check:
 
 * Double check have pasted in the content in correctly (e.g., where you in insert mode in vim before pasting?). 
 * Make sure you did not mix up your private/public key.
@@ -139,7 +137,7 @@ Writing bash scripts can be error-prone. Most commands are not idempotent, meani
 
 Ansible is a tool for performing configuration changes on multiple machines. Ansible uses a push-based model for configuration management, performing idempotent commands over ssh, without requiring any agent running. The implementation is rather straightforward: _Ansible commands are translated into python snippets, and then copied over to the target machine, and executed. This requires that python is installed on the target machine_.
 
-### Install
+### Install Ansible
 
 🎛️  Inside the `config-server`, install ansible.
 
@@ -151,13 +149,13 @@ sudo apt-get install ansible -y
 
 Now, we can use this server to send or "push" commands to other external servers, such as web-srv.
 
-### Inventory
+### Creating an Inventory
 
 An inventory file allows ansible to define, group, and coordinate configuration management of multiple machines. At the most basic level, it basically lists the names of an asset and details about how to connect to it.
 
 Inside the config-srv, edit the `inventory` file to include the ip address, user, and path to the private key:
 
-```ini 
+```ini | {type: 'file', target: 'config-server', path: '~/inventory'}
 [web]
 192.168.33.100 ansible_ssh_user=vagrant ansible_ssh_private_key_file=~/.ssh/web-srv 
 [web:vars]
@@ -166,7 +164,9 @@ ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 
 Now, run the ping test to verify ansible is able to talk to the web-srv!
 
-    ansible all -m ping -i inventory
+```bash | {type: 'command', target: 'config-server'}
+ansible all -m ping -i /bakerx/inventory
+```
 
 We should see a successful connection!
 
