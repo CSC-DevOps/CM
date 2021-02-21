@@ -25,7 +25,7 @@ An overview of the components we will set up can be seen here:
 
 ### Checking progress on workshop
 
-To check the configuration of the ansible server and web server, we will use `opunit` to run checks on the virtual machines listed in the inventory file. We can run checks from the top-level directory as follows.
+To check the configuration of the 🎛️  `config-server` and 🌍  `web-srv`, we will use `opunit` to run checks on the virtual machines listed in the inventory file. We can run checks from the top-level directory as follows.
 
 At any time, you can run the following in on your host computer's terminal:
 
@@ -53,7 +53,7 @@ Fill in and run a few commands to inspect the files that were created (e.g., `ls
 
 The public key (🌐), is given away. While, the private key, is hidden away (*shh* 🤫, tell no one). 
 
-In our case, the public key will be used to _authorize_ the private key for connections to the web-server. The private key will be stored in the configuration server. It can then be used, for example, to make a ssh connection to the web-server, if needed (`ssh -i web-srv`).
+In our case, the public key will be used to _authorize_ the private key for connections to the 🌍  `web-srv`. The private key will be stored in the 🎛️  `config-server`. It can then be used, for example, to make a ssh connection to the 🌍  `web-srv`, if needed (`ssh -i web-srv`).
 
 <!-- ![ssh connection](img/connection.png) -->
 
@@ -66,14 +66,14 @@ Use of the the below clipboard commands or simply use `cat` to see and copy the 
  
 ```
 
-Now private key content needs to be placed inside the config-server, in a file called `~/.ssh/web-srv`. Use a terminal to create the file.
+Now private key content needs to be placed inside the 🎛️  `config-server`, in a file called `~/.ssh/web-srv`. Use a terminal to create the file.
 
 ``` | {type: 'terminal', target: 'config-server', 'background-color': '#C80815'}
 ```
 
 #### Authorizing the public key on the web server 🌐
 
-Now, we need to authorize the private key for use on the web server!
+Now, we need to authorize the private key for use on the 🌍  `web-srv`!
 
 Edit the file `~/.ssh/authorized_keys`, and add the public key to the list of authorized keys. 💥  Warning! Do not delete other entries, otherwise you might make your VM in accessible from ssh.
 
@@ -82,7 +82,7 @@ Edit the file `~/.ssh/authorized_keys`, and add the public key to the list of au
 
 #### Testing your connection/Errors
 
-Inside the config-srv, test your connection between the servers:
+Inside the 🎛️  `config-server`, test your connection between the servers:
 
 ```bash
 ssh -i ~/.ssh/web-srv -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no vagrant@192.168.33.100
@@ -126,9 +126,9 @@ For example, when you run this command.
 
     ssh -i ~/.ssh/web-srv -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null vagrant@192.168.33.100 ls /
 
-You can see the directory of the web-srv.
+You can see the directory of the 🌍  `web-srv`.
 
-Practice: From your ansible-srv, create a file by executing the command below on the remote server. Verify it exists.
+Practice: From your 🎛️  `config-server`, create a file by executing the command below on the 🌍  `web-srv`. Verify it exists.
 
     touch ssh_test.txt
 
@@ -146,7 +146,7 @@ The implementation is rather straightforward: _Ansible commands are translated i
 
 ### Install Ansible
 
-🎛️  Inside the `config-server`, install ansible.
+Inside the 🎛️  `config-server`, install ansible.
 
 ```bash | {type: 'command', target: 'config-server', stream: true, failed_when: "exitCode != 0"}
 sudo add-apt-repository ppa:ansible/ansible
@@ -154,13 +154,13 @@ sudo apt-get update
 sudo apt-get install ansible -y
 ```
 
-Now, we can use this server to send or "push" commands to other external servers, such as web-srv.
+Now, we can use this server to send or "push" commands to other external servers, such as 🌍  `web-srv`.
 
 ### Creating an Inventory
 
 An inventory file allows ansible to define, group, and coordinate configuration management of multiple machines. At the most basic level, it basically lists the names of an asset and details about how to connect to it.
 
-Inside the config-srv, edit the `inventory` file to include the ip address, user, and path to the private key:
+Inside the 🎛️  `config-server`, edit the `inventory` file to include the ip address, user, and path to the private key:
 
 ```ini | {type: 'file', target: 'config-server', path: '/home/vagrant/inventory'}
 [web]
@@ -169,7 +169,7 @@ Inside the config-srv, edit the `inventory` file to include the ip address, user
 ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 ```
 
-Now, run the ping test to verify ansible is able to talk to the web-srv!
+Now, run the ping test to verify ansible is able to talk to the 🌍  `web-srv`!
 
 ```bash | {type: 'command', target: 'config-server'}
 ansible all -m ping -i inventory
@@ -190,7 +190,7 @@ We can test our ability to use ansible for a simple configuration management tas
 
 #### Installing nginx
 
-Let's install a web server, called nginx (say like engine-X), on the web-srv VM. The web server will automatically start as a service. 
+Let's install a web server, called nginx (say like engine-X), on the 🌍  `web-srv` VM. The web server will automatically start as a service. 
 
 Complete the ansible command by retyping it out and looking at each parameter: `ansible all -b -m apt -i inventory -a 'pkg=nginx state=present update_cache=true'`.
 
@@ -198,7 +198,7 @@ Complete the ansible command by retyping it out and looking at each parameter: `
 ansible 
 ```
 
-Open a browser and enter in your node's ip address, e.g. http://192.168.33.100
+Open a browser and enter in your 🌍  `web-srv`'s ip address, e.g. http://192.168.33.100
 
 #### Completing workshop checks
 
