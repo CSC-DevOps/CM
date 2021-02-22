@@ -1,5 +1,7 @@
 <!--
 targets:
+    - type: local
+      name: local
     - type: bakerx
       name: config-server
 -->
@@ -20,7 +22,7 @@ ansible all -i inventory -m ping
 
 What if we didn't want to have to run manual commands? 
 
-An *ansible playbook* allows you to execute a collection of configuration management tasks from a file. Here is an example of the same ansible command, but expressed as an Ansible playbook:
+An *ansible playbook* allows you to execute a collection of configuration management tasks from a file. Here is an example of the same ansible command, but expressed as an ansible playbook:
 
 ```yaml
 ---
@@ -43,13 +45,9 @@ Understanding and writing ansible scripts is largely a function of understanding
 
 You can read a [nice overview](https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html) on the syntax. But first, we will understand it by parsing it. *Note*: YAML can be very picky about indentation.
 
-```
-$ npm install js-yaml
-```
-
 **ACTIVITY**: Print name and command property of each object in "tasks" list.
 
-```javascript
+```js | {type: 'script', target: 'local'}
 const yaml = require('js-yaml');
 let yamlFile = `
 top:
@@ -66,9 +64,21 @@ top:
 var doc = yaml.safeLoad(yamlFile, 'utf8');
 ```
 
+For more practice, you can try this [interactive notebooks for parsing yaml](https://docable.cloud/chrisparnin/notebooks/nodejs/yaml/yaml-practice.md).
+
+
 ### Basic playbook structure
 
 Let's break down our example ping playbook to understand it's basic parts.
+
+```yaml
+---
+- hosts: all
+  gather_facts: no
+  tasks:
+  - name: ping all hosts
+    ping:
+```
 
 ##### Hosts 
 
@@ -166,7 +176,7 @@ Ansible's value is in the rich library of modules it provides to make it easier 
 
 ### Variables
 
-Ansible provides [variables](https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html) as a way to avoid hard-coding configuration inside ansible tasks.
+Ansible provides [variables](https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html) as a way to avoid hard-coding configuration values inside ansible tasks.
 
 You can declare variables as part of the top-level playbook object and reference variables inside of the playbook by using `"{{variable_name}}"`.
 
@@ -284,7 +294,9 @@ This will ensure a .ssh directory exists and creates a ssh key. Inspect the dire
 
 Given this yaml fragment, attempt to write a playbook called node.yml that installs node.js on servers in your inventory. 
 
-```yaml
+**Hint**: You will need to a) add a hosts section, b) Ensure apt-get update has been run at least once with `update_cache:yes`, c) ensure you can run with privileges (`become: yes`).
+
+```yaml | {type: 'file', path: '/bakerx/examples/node.yaml', target: 'config-server'}
   tasks:
     - name: Install nodejs
       apt: 
@@ -292,7 +304,12 @@ Given this yaml fragment, attempt to write a playbook called node.yml that insta
         state: present
 ```
 
-**Hint**: You will need to a) add a hosts section, b) Ensure apt-get update has been run at least once with `update_cache:yes`, c) ensure you can run with privileges (`become: yes`).
+Once you've created your playbook, try completing the command to run it:
+
+```bash | {type}: 'command', , target: 'config-server'}
+ansible-playbook 
+```
+
 
 ### Enabling Idempotence for commands
 
