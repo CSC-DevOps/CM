@@ -1,19 +1,26 @@
+<!--
+targets:
+    - type: bakerx
+      name: config-server
+-->
 
-Part 1. [Configuration Management Workshop](README.md)
-Part 2. [Building a Configuration Server](CM.md)
+Part 1. [Configuration Management Workshop](README.md)  
+Part 2. [Building a Configuration Server](CM.md)  
 Part 3. [Ansible Playbooks](Playbooks.md)  ⬅️   
 
 Although you can run ad-hoc commands in ansible, in practice, you'll largely be expected to create ansible playbooks. Ansible playbooks are essentially files formatted as [yaml](http://docs.ansible.com/ansible/YAMLSyntax.html).
 
 ## Hello Playbooks
 
-Let's confirm our ansible setup still works.
+Let's confirm our ansible setup still works. If not, you can double back to Part 2 and make sure you have everything working first.
 
-```bash
+```bash | {type: 'command', target: 'config-server'}
 ansible all -i inventory -m ping
 ```
 
-Instead of running this on the command line, we can run this within an ansible playbook (see [ping.yml](examples/ping.yml)). 
+What if we didn't want to have to run manual commands? 
+
+An *ansible playbook* allows you to execute a collection of configuration management tasks from a file. Here is an example of the same ansible command, but expressed as an Ansible playbook:
 
 ```yaml
 ---
@@ -26,13 +33,13 @@ Instead of running this on the command line, we can run this within an ansible p
 
 You can run this playbook by running:
 
-```bash
-ansible-playbook ping.yml -i inventory
+```bash | {type: 'command', target: 'config-server'}
+ansible-playbook /bakerx/examples/ping.yml -i inventory
 ```
 
 ### Understanding yaml
 
-Understanding and writing ansible is largely a function of understanding _YAML_ (YAML Ain't Markup Language or formally Yet Another Markup Languageß), which can be thought as [a superset of JSON](https://stackoverflow.com/questions/1726802/what-is-the-difference-between-yaml-and-json/1729545#1729545).
+Understanding and writing ansible scripts is largely a function of understanding _YAML_ (YAML Ain't Markup Language or formally Yet Another Markup Language), which can be thought as [a superset of JSON](https://stackoverflow.com/questions/1726802/what-is-the-difference-between-yaml-and-json/1729545#1729545).
 
 You can read a [nice overview](https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html) on the syntax. But first, we will understand it by parsing it. *Note*: YAML can be very picky about indentation.
 
