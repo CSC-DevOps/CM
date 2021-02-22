@@ -306,7 +306,7 @@ Given this yaml fragment, attempt to write a playbook called node.yml that insta
 
 Once you've created your playbook, try completing the command to run it:
 
-```bash | {type}: 'command', , target: 'config-server'}
+```bash | {type: 'command', target: 'config-server'}
 ansible-playbook 
 ```
 
