@@ -61,7 +61,7 @@ top:
     - name: Run ls command
       command: ls
 `;
-var doc = yaml.safeLoad(yamlFile, 'utf8');
+var doc = yaml.load(yamlFile, 'utf8');
 ```
 
 For more practice, you can try this [interactive notebooks for parsing yaml](https://docable.cloud/chrisparnin/notebooks/nodejs/yaml/yaml-practice.md).
@@ -82,7 +82,7 @@ Let's break down our example ping playbook to understand it's basic parts.
 
 ##### Hosts 
 
-```yaml
+```yaml | {type:'info', range: {start:2, end: 2}}
 --- # Headline denoting start of yaml document.
 # This the first object in the list of playbooks. You can have more than one.
 - hosts: all # Declares hosts="all" for the playbook object.
@@ -103,9 +103,7 @@ db2.example.com
 db3.example.com
 ```
 
-In this case, `hosts: "all"` would every server in the inventory (all six). If we set `hosts: "webservers"`, then we would only refer to `www1.example.com` and `www2.example.com`.
-
-Finally, it is possible to run commands on the local server with ansible itself, by providing `hosts: "localhost"`.
+In this case, `hosts: all` would every server in the inventory (all six). If we set `hosts: webservers`, then we would only refer to `www1.example.com` and `www2.example.com`. Finally, it is possible to run commands on the local server with ansible itself, by providing `hosts: localhost`.
 
 ##### Gather facts
 
@@ -113,13 +111,15 @@ Finally, it is possible to run commands on the local server with ansible itself,
   gather_facts: no
 ```
 
-When ansible connects to a server over ssh, it will run special python modules for gather statistics about the server and obtaining state needed for running the playbook. It can be desirable to turn this off if we're establishing basic connectivity for two reasons: 1) for performance, 2) for cases were repairs must be done against server. Imagine python was broken or missing on your server, ansible would not be able to work. However, by turning off `gather_facts`, and then running `- raw: sudo apt-get install -y python-minimal`, you could fix this problem.
+When ansible connects to a server over ssh, it will run special python modules for gather statistics about the server and obtaining state needed for running the playbook. **It can be desirable to turn this off if** we're establishing basic connectivity for two reasons: 
+   1. for performance, 
+   2. for bootstraping a server or when repairs must be done against server. Imagine python was broken or missing on your server, ansible would not be able to work. However, by turning off `gather_facts`, and then running `- raw: sudo apt-get install -y python-minimal`, you could fix this problem.
 
 ##### Tasks
 
 Tasks are the essential component of a playbook. Here is where you run actual commands on the server.
 
-```yaml
+```yaml | {type: 'info', range: {start: 1, end: 2}}
   tasks:
     - name: ping all hosts # purely for documentation, this is what is printed out when you run the playbook.
       ping: # We are running the ping module. Notice that no arguments are needed.
@@ -146,6 +146,10 @@ Notice that we could write our apt install task in a different way.
 ```
 
 Both snippets will do absolutely the same thing. With the "inline style" ansible will parse out the object properties from the string it is given. In the second snippet, we explicitly specify the `pkg` and `state` properties for the apt module.
+
+## Playbook concepts
+
+Playbooks require several essential concepts, such as modules, variables, templates, roles, and more.
 
 ### Modules
 
@@ -180,7 +184,7 @@ Ansible provides [variables](https://docs.ansible.com/ansible/latest/user_guide/
 
 You can declare variables as part of the top-level playbook object and reference variables inside of the playbook by using `"{{variable_name}}"`.
 
-```yaml
+```yaml | {type: 'info', range: {start: 9, end: 11}}
   vars:
     user: "mattermost"
     group: "mattermost"
