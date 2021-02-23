@@ -12,6 +12,8 @@ Part 3. [Ansible Playbooks](Playbooks.md)  ⬅️
 
 Although you can run ad-hoc commands in ansible, in practice, you'll largely be expected to create ansible playbooks. Ansible playbooks are essentially files formatted as [yaml](http://docs.ansible.com/ansible/YAMLSyntax.html).
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/ml23UKNbEBg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 ## Hello Playbooks
 
 Let's confirm our ansible setup still works. If not, you can double back to Part 2 and make sure you have everything working first.
@@ -345,10 +347,6 @@ By default, most ansible modules are written to be idempotent. However, if you n
     - dest_dir: /tmp
 
   tasks:
-    - name: Get stats of a file
-      ansible.builtin.stat:
-        path: {{dest_dir}}/{{exchange_item}}
-        register: st
     - name: get stack overflow data
       shell: "wget -nv -P {{dest_dir}} {{url}}"
 ```
