@@ -9,3 +9,4 @@
   tasks:
     - name: get stack overflow data
       shell: "wget -nv -P {{dest_dir}} {{url}}"
+      when: "not st.stat.exists"

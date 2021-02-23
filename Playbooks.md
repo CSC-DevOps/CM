@@ -155,18 +155,27 @@ Playbooks require several essential concepts, such as modules, variables, templa
 
 Ansible's value is in the rich library of modules it provides to make it easier to run commands on a server.
 
-* Install packages ([apt](https://docs.ansible.com/ansible/latest/modules/apt_module.html), [yum](https://docs.ansible.com/ansible/latest/modules/yum_module.html), [dnf](https://docs.ansible.com/ansible/latest/modules/dnf_module.html)).
+* Install packages ([apt](https://docs.ansible.com/ansible/2.4/apt_module.html), [yum](https://docs.ansible.com/ansible/2.4/yum_module.html), [dnf](https://docs.ansible.com/ansible/2.4/dnf_module.html)).
+
+```yaml | {type: 'info', range: {start:1,end:1}}
+- name: Install latest version of "openjdk-6-jdk" ignoring "install-recommends"
+  apt:
+    name: openjdk-6-jdk
+    state: latest
+    install_recommends: no
+```
+
 
 * Manage services on the server.
 
-```yaml
+```yaml | {type: 'info', range: {start:2,end:3}}
 - name: Start service httpd, if not started
   service:
     name: httpd
     state: started
 ```
 
-* Perform file operations ([file](https://docs.ansible.com/ansible/latest/modules/file_module.html), [copy](https://docs.ansible.com/ansible/latest/modules/copy_module.html), [template](https://docs.ansible.com/ansible/latest/modules/template_module.html)):
+* Perform file operations ([file](https://docs.ansible.com/ansible/2.4/file_module.html), [copy](https://docs.ansible.com/ansible/2.4/copy_module.html), [template](https://docs.ansible.com/ansible/2.4/template_module.html)):
 
 ```yaml
 - name: Copy file with owner and permission, using symbolic representation
@@ -256,28 +265,6 @@ This can be useful for setting up complex configuration files such as apache, my
 
 It is possible to store secrets encrypted using [ansible-vault](http://docs.ansible.com/ansible/playbooks_vault.html). This is recommended if you need to store tokens, passwords, or ssh keys.
 
-### Output/Register/Conditions
-
-When a module is executed, you can save the results of that command using `register`.
-Further, you can use conditions to control whether a task is executed with `when`.
-You can control whether a command is considered changed, using `changed_when`.
-
-For example, this command will save the output of `echo` into the variable `out`.
-Its changed status will change depending on whether there is a list item with z.
-
-```yaml
-- action: command echo {{item}}
-  register: out
-  changed_when: "'z' in out.stdout"
-  with_items:
-    - hello
-    - foo
-    - bye
-```
-
-Mixing `register`, `changed_when`, and `with_items` can get tricky. Based on context, sometimes the variable saved in register will change per item during task execution. Othertimes, when all done contain a list of all items and their results. For some more details:
-[see this example](http://stackoverflow.com/a/41292571/547112).
-
 ## Practicing commands
 
 The simpliest way to get started is to try executing some basic tasks inside of a playbook.
@@ -317,16 +304,58 @@ Once you've created your playbook, try completing the command to run it:
 ansible-playbook 
 ```
 
+### Output/Register/Conditions
+
+When a module is executed, you can save the results of that command using `register`.
+Further, you can use conditions to control whether a task is executed with `when`.
+You can control whether a command is considered changed, using `changed_when`.
+
+For example, this command will save the output of `echo` into the variable `out`.
+Its changed status will change depending on whether there is a list item with z.
+
+```yaml
+- action: command echo {{item}}
+  register: out
+  changed_when: "'z' in out.stdout"
+  with_items:
+    - hello
+    - foo
+    - bye
+```
+
+Mixing `register`, `changed_when`, and `with_items` can get tricky. Based on context, sometimes the variable saved in register will change per item during task execution. Othertimes, when all done contain a list of all items and their results. For some more details:
+[see this example](http://stackoverflow.com/a/41292571/547112).
+
+```bash | {type: 'terminal', target: 'config-server', 'background-color': '#7e050d'}
+```
 
 ### Enabling Idempotence for commands
 
-By default, most ansible modules are written to be idempotent. However, if you need to use the command/shell module, this will break things.
+By default, most ansible modules are written to be idempotent. However, if you need to use the `command` or `shell` module, then the operations performed will not likely be idempotent.
 
-**ACTIVITY**: Ok. Check out [results.yml](examples/results.yml). There is a task that downloads a file. But since it uses the `shell` command it doesn't know that the task has already been done. It isn't idempotent and it will wastefully download the file over and over again!
+**ACTIVITY**: The following playbook downloads a file using `wget`. If you run this playbook twice, the shell module doesn't have a way to check if the task has already been done. It isn't idempotent and it will wastefully download the file over and over again!
 
-* Change the command so that there is a task that [first checks if the file already exists](http://docs.ansible.com/ansible/stat_module.html) in /tmp. Only download when it doesn't exist by adding a `when` condition. Note that the it is possible to pass this option to the shell command, however, it there are some limits to this approach: `creates={{dest_dir}}/{{exchange_item}}"`.
+```yaml
+---
+- hosts: all
 
-### Content Layout/Roles
+  vars: 
+    - exchange_item: 3dprinting.meta.stackexchange.com.7z
+    - url: "http://archive.org/download/stackexchange/{{exchange_item}}"
+    - dest_dir: /tmp
+
+  tasks:
+    - name: Get stats of a file
+      ansible.builtin.stat:
+        path: {{dest_dir}}/{{exchange_item}}
+        register: st
+    - name: get stack overflow data
+      shell: "wget -nv -P {{dest_dir}} {{url}}"
+```
+
+* Edit the file in `/bakerx/examples/results.yml` so that there is a task that [first checks if the file already exists](https://docs.ansible.com/ansible/devel/collections/ansible/builtin/stat_module.html) in /tmp. Only download when it doesn't exist by adding a `when` condition. *Note*: that `creates` option to shell is an alternative option, however, it there are some limits. Example: `creates={{dest_dir}}/{{exchange_item}}"`.
+
+## Content Layout/Roles
 
 Finally, as your playbooks grow more complex in size, you will start to think about ways to organize and seperate out tasks.
 
