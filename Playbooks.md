@@ -283,8 +283,8 @@ Mixing `register`, `changed_when`, and `with_items` can get tricky. Based on con
 The simpliest way to get started is to try executing some basic tasks inside of a playbook.
 In examples folder, execute the [commands.yml](examples/commands.yml) playbook.
 
-```bash
-ansible-playbook examples/commands.yml -i inventory.ini
+```bash | {type: 'command', target: 'config-server'}
+ansible-playbook /bakerx/examples/commands.yml -i inventory
 ```
 
 This will ensure a .ssh directory exists and creates a ssh key. Inspect the directory and ensure it exists. Notice that this runs on your ansible server (`hosts: localhost`).
@@ -292,7 +292,10 @@ This will ensure a .ssh directory exists and creates a ssh key. Inspect the dire
 **ACTIVITY:**
 
 * Run the command again. You should see changes=0.
-* Manually delete the ssk key that was generated. Run the command again.
+* Manually delete the ssk keypair (`demo`, `demo.pub`) that was generated. Run the command again.
+
+```bash | {type: 'terminal', target: 'config-server', 'background-color': '#C80815'}
+```
 
 ### Practice updating script
 
