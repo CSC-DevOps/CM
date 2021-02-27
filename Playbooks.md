@@ -283,7 +283,7 @@ This will ensure a .ssh directory exists and creates a ssh key. Inspect the dire
 * Run the command again. You should see changes=0.
 * Manually delete the ssk keypair (`demo`, `demo.pub`) that was generated. Run the command again.
 
-```bash | {type: 'terminal', target: 'config-server', 'background-color': '#C80815'}
+```bash | {type: 'terminal', target: 'config-server', 'background-color': '#7e050d'}
 ```
 
 ### Practice updating script
